@@ -20,11 +20,11 @@ public class IPSettings : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {/*
         if (NetworkManager.Singleton.IsHost && !NetworkManager.Singleton.IsClient)
         {
             GetLocalIPAddress();
-        }
+        }*/
         }
     public string GetLocalIPAddress()
     {
@@ -40,7 +40,20 @@ public class IPSettings : MonoBehaviour
         }
         throw new System.Exception("No network adapters with an IPv4 address in the system!");
     }
-
+    public void GetLocalIPAddress2()
+    {
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            {
+                ipAddressText.text = ip.ToString();
+                ipAddress = ip.ToString();
+                return;
+            }
+        }
+        throw new System.Exception("No network adapters with an IPv4 address in the system!");
+    }
     public void SetIpAddress()
     {
         ipAddress = ip.text;
